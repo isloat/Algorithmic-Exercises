@@ -1,0 +1,94 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Solution {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int letterWidth = in.nextInt();
+        int letterHeight = in.nextInt();
+        in.nextLine();
+        String T = in.nextLine();
+        int letterLength = T.length();
+        
+        for (int i = 0; i < letterHeight; i++) { // Calculate by rows
+            String ROW = in.nextLine();
+        
+            for (int j = 0; j < letterLength; j++) { // Do each letter at a time
+                char letter = T.charAt(j);
+                int index = convertCharacter(letter);
+                index *= letterWidth;
+                System.out.print(ROW.substring(index, (index + letterWidth)));
+            }
+            
+            System.out.println();
+        }
+    }
+    
+    public static int convertCharacter(char character) {
+        int index = 0;
+        String letter = String.valueOf(character);
+        switch (letter) {
+            case "A": case "a":    index = 0;
+                                break;
+            case "B": case "b":    index = 1;
+                                break;
+            case "C": case "c":    index = 2;
+                                break;
+            case "D": case "d":    index = 3;
+                                break;
+            case "E": case "e":    index = 4;
+                                break;
+            case "F": case "f":    index = 5;
+                                break;     
+            case "G": case "g":    index = 6;
+                                break;
+            case "H": case "h":    index = 7;
+                                break;     
+            case "I": case "i":    index = 8;
+                                break;
+            case "J": case "j":    index = 9;
+                                break;     
+            case "K": case "k":    index = 10;
+                                break;
+            case "L": case "l":    index = 11;
+                                break;     
+            case "M": case "m":    index = 12;
+                                break;
+            case "N": case "n":    index = 13;
+                                break;     
+            case "O": case "o":    index = 14;
+                                break;
+            case "P": case "p":    index = 15;
+                                break;     
+            case "Q": case "q":    index = 16;
+                                break;
+            case "R": case "r":    index = 17;
+                                break;     
+            case "S": case "s":    index = 18;
+                                break;
+            case "T": case "t":    index = 19;
+                                break;     
+            case "U": case "u":    index = 20;
+                                break;
+            case "V": case "v":    index = 21;
+                                break;     
+            case "W": case "w":    index = 22;
+                                break;
+            case "X": case "x":    index = 23;
+                                break;     
+            case "Y": case "y":    index = 24;
+                                break;
+            case "Z": case "z":    index = 25;
+                                break;     
+            default:            index = 26;
+                                break;
+        }
+        return index;
+    }
+}
