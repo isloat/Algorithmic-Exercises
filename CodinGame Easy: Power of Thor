@@ -1,0 +1,67 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ * ---
+ * Hint: You can use the debug stream to print initialTX and initialTY, if Thor seems not follow your orders.
+ **/
+class Player {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int lightX = in.nextInt(); // the X position of the light of power
+        int lightY = in.nextInt(); // the Y position of the light of power
+        int initialTX = in.nextInt(); // Thor's starting X position
+        int initialTY = in.nextInt(); // Thor's starting Y position
+        int currentTX = initialTX;
+        int currentTY = initialTY;
+        String direction = ""; // N NE E SE S SW W or NW
+        boolean vertical = false;
+        boolean horizontal = false;
+
+        // game loop
+        while (true) {
+            int remainingTurns = in.nextInt(); // The remaining amount of turns Thor can move. Do not remove this line.
+
+            if (currentTX < lightX) { // Thor is WEST of the light
+                currentTX++;
+                
+                if (currentTY < lightY) { // Thor is NORTH of the light
+                    direction = "SE";
+                    currentTY++;
+                } else if (currentTY > lightY) { // Thor is SOUTH of the light
+                    direction = "NE";
+                    currentTY--;
+                } else { // Thor is neither above nor below the light
+                    direction = "E";
+                }
+            } else if (currentTX > lightX) { // Thor is EAST of the light
+                currentTX--;
+                
+                if (currentTY < lightY) { // Thor is NORTH of the light
+                    direction = "SW";
+                    currentTY++;
+                } else if (currentTY > lightY) { // Thor is SOUTH of the light
+                    direction = "NW";
+                    currentTY--;
+                } else { // Thor is neither above nor below the light
+                    direction = "W";
+                }
+            } else { // Thor is neither east nor west of the light
+                if (currentTY < lightY) {
+                    direction = "S";
+                } else if (currentTY > lightY) {
+                    direction = "N";
+                }
+            }
+
+            // Write an action using System.out.println()
+            // To debug: System.err.println("Debug messages...");
+            // A single line providing the move to be made: N NE E SE S SW W or NW
+            System.out.println(direction);
+        }
+    }
+}
