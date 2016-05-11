@@ -1,0 +1,36 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Solution {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        
+        int n = in.nextInt(); // the number of temperatures to analyse
+        in.nextLine();
+        
+        if (n > 0) {
+            int temperatures = findTempNearestZero(in, n);
+            System.out.println(temperatures);
+        } else {
+            System.out.println(0);
+        }
+    }
+    
+    public static int findTempNearestZero(Scanner in, int n) {
+        int nearest = Integer.MAX_VALUE;
+        int t;
+        
+        for (int i =0; i < n; i++) {
+            t = in.nextInt();
+            nearest = (Math.abs(t) < Math.abs(nearest) || t == Math.abs(nearest)) ? t : nearest;
+        }
+        
+        return nearest;
+    }
+}
