@@ -1,0 +1,72 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Solution {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        String MESSAGE = in.nextLine();
+        String truebinary = "";
+
+        // Read the original message.
+        // Convert it to ASCII code.
+        // Convert the ASCII code to a binary string.
+        // Extend the binary string to seven bits.
+        // Add the seven-bit binary string to the overall string.
+        for (int i = 0; i < MESSAGE.length(); i++) {
+            char character = MESSAGE.charAt(i);
+            int binarify = (int) character;
+            String binary = Integer.toBinaryString(binarify);
+        
+            while (binary.length() < 7) {
+                binary = "0" + binary;
+            }
+            
+            truebinary += binary;
+        }
+            
+        // For each character in the truebinary string
+        // Determine whether it is a 0 or a 1
+        // If it is a 0, output "00 "
+        // If it is a 1, output "0 "
+        // Add further 0s corresponding to how many consecutive bits matching the digit
+        // When a digit switch is detected, output a " "
+        for (int j = 0; j < truebinary.length();) {
+            String digit = "";
+            String index = Character.toString(truebinary.charAt(j));
+                
+            if (index.equals("0")) {
+                System.out.print("00 ");
+                digit = "0";
+            } else if (index.equals("1")) {
+                System.out.print("0 ");
+                digit = "1";
+            }
+             
+            Boolean next = true;
+            while (next) {
+                if (index.equals(digit)) {
+                    System.out.print("0");
+                    j++;
+                        
+                    if (j < truebinary.length()) {
+                        index = Character.toString(truebinary.charAt(j));
+                    } else {
+                        next = false;
+                    }
+                        
+                } else {
+                    System.out.print(" ");
+                    next = false;
+                }
+            }
+        }
+            
+    }
+    
+}
