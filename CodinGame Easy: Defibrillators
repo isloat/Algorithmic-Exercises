@@ -1,0 +1,143 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Solution {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        String userLongString = in.next();
+        String userLatString = in.next();
+        int defibAmount = in.nextInt();
+        in.nextLine();
+        
+        // initialize arrays and variables for program
+        double userLong = convertToDecimal(userLongString);
+        double userLat = convertToDecimal(userLatString);
+        String[] defibName = new String[defibAmount];
+        double[] longitude = new double[defibAmount];
+        double[] latitude = new double[defibAmount];
+        double[] distance = new double[defibAmount];
+        
+        // populate arrays
+        for (int i = 0; i < defibAmount; i++) {
+            String DEFIB = in.nextLine();
+            defibName[i] = getName(DEFIB);
+            longitude[i] = getLongitude(DEFIB);
+            latitude[i] = getLatitude(DEFIB);
+            distance[i] = getDistance(userLong, userLat, longitude[i], latitude[i]);
+        }
+
+        // find the smallest distance
+        double smallestDistance = distance[0];
+        int indexDistance = 0;
+        for (int i = 0; i < defibAmount; i++) {
+            if (distance[i] < smallestDistance) {
+                smallestDistance = distance[i];
+                indexDistance = i;
+            }
+        }
+        
+        System.out.println(defibName[indexDistance]);
+    }
+    
+    // name is after the FIRST semicolon and before the SECOND semicolon
+    public static String getName(String data) {
+        int semicolonCount = 0;
+        int indexFirst = 0;
+        int indexSecond = 0;
+        String name = "";
+        
+        for (int i = 0; i < data.length(); i++) {
+            String seeker = data.substring(i, i + 1);
+            
+            if (seeker.equals(";")) {
+                semicolonCount++;
+                
+                if (semicolonCount == 1) {
+                    indexFirst = i;
+                } else if (semicolonCount == 2) {
+                    indexSecond = i;
+                    i = data.length(); // don't need to continue scanning
+                }
+            }
+        }
+        
+        name = data.substring(indexFirst + 1, indexSecond);
+        
+        return name;
+    }
+    
+    // longitude is after the FOURTH and before the FIFTH semicolons in the string
+    public static double getLongitude(String data) {
+        int semicolonCount = 0;
+        int indexFourth = 0;
+        int indexFifth = 0;
+        double longitude = 0;
+        String seeker = "";
+        
+        for (int i = 0; i < data.length(); i++) {
+            seeker = data.substring(i, i + 1);
+            
+            if (seeker.equals(";")) {
+                semicolonCount++;   
+                
+                if (semicolonCount == 4) {
+                    indexFourth = i;
+                } else if (semicolonCount == 5) {
+                    indexFifth = i;
+                    i = data.length(); // don't need to continue scanning
+                }
+            }
+            
+        }
+        
+        seeker = data.substring(indexFourth + 1, indexFifth);
+        longitude = convertToDecimal(seeker);
+        
+        return longitude;
+    }
+    
+    // latitude is after the FIFTH semicolon in the string
+    public static double getLatitude(String data) {
+        int semicolonCount = 0;
+        double latitude = 0;
+        String seeker = "";
+        
+        for (int i = 0; i < data.length(); i++) {
+            seeker = data.substring(i, i + 1);
+            
+            if (seeker.equals(";")) {
+                semicolonCount++;
+                            
+                if (semicolonCount == 5) {
+                    seeker = data.substring(i + 1); // get everything *after* the semicolon
+                    latitude = convertToDecimal(seeker);
+                } 
+            }
+        }
+        return latitude;
+    }
+    
+    // Take the European string comma and convert it to decimal 
+    public static double convertToDecimal(String data) {
+        data = data.replaceAll(",", ".");
+        double decimal = Double.parseDouble(data);
+        
+        return decimal;
+    }
+        
+    public static double getDistance(double userLong, double userLat, double defibLong, double defibLat) {
+        double x = Math.abs(defibLong - userLong) * Math.cos((userLat + defibLat) / 2);
+        double y = Math.abs(defibLat - userLat);
+        double distance = Math.sqrt(x * x + y * y) * 6371;
+        
+        return distance;
+    }
+    
+
+}
