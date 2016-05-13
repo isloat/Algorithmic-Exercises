@@ -1,0 +1,118 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Solution {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        
+        // First read how many MIME types
+        // Then read how many filenames that need to be analyzed
+        int fileTypes = in.nextInt(); // Number of elements which make up the association table.
+        // System.err.println(fileTypes);
+        int fileNames = in.nextInt(); // Number of file names to be analyzed.
+        // System.err.println(fileNames);
+        
+        // Set up arrays to store the types;
+        String[] EXT = new String[fileTypes];
+        String[] MT = new String[fileTypes];
+        
+        // Read the MIME types and store them in arrays. 
+        for (int i = 0; i < fileTypes; i++) {
+            EXT[i] = in.next(); // file extension
+            System.err.println(EXT[i]);
+            MT[i] = in.next(); // MIME type.
+            System.err.println(MT[i]);
+            in.nextLine();
+        }
+            
+        // Now that nextLine is to the files to be analyzed, 
+        // scan through the files until we reach the extension.
+        // Analyze the extension and match them to EXT
+        // Output the MT
+        for (int i = 0; i < fileNames; i++) {
+            String FNAME = in.nextLine(); // One file name per line
+            System.err.println(FNAME);
+            
+            Boolean analyze = true;
+            Boolean fullstopFound = false;
+            int charPos = FNAME.length() - 1;
+            String chunk = FNAME.substring(charPos);
+            String fullstop = chunk.substring(0, 1);
+            
+            // Find the character where the extension starts
+            // Work backwards from the end so we're able to find the lastmost fullstop
+            for (int j = FNAME.length() - 1; j >= 0; j--) {
+                if (fullstop.equals(".")) {
+                    fullstopFound = true;
+                } else {
+                    charPos--; // increment backwards
+                    
+                    if (charPos < 0) { // bound-checking
+                        j = -1;
+                    } else {
+                        chunk = FNAME.substring(charPos);
+                        fullstop = chunk.substring(0, 1);
+                    }
+                }
+            }
+            
+            if (!fullstopFound) {
+                System.out.println("UNKNOWN");
+                analyze = false;
+            }
+            
+            // Run the analysis cycle on the filename
+            // The analyze flag will be turned off and the while loop broken, if conditions are met
+            while (analyze) {
+                
+                // If a fullstop is found, then run the comparison
+                if (fullstop.equals(".")) {
+                    // default to no match found
+                    Boolean matchNotFound = true;
+                    String fileExtension = chunk.substring(1);
+                    
+                    // A fullstop is found, so cycle through the extensions until a match is found
+                    for (int j = 0; j < fileTypes; j++) {
+                        // if a match is found, output it and break the loop.
+                        // Matches should ignore case
+                        String MIME = EXT[j];
+                        
+                        if (fileExtension.equalsIgnoreCase(MIME)) {
+                            System.out.println(MT[j]);
+                            analyze = false;
+                            matchNotFound = false;
+                        }
+                    }
+                    
+                    // If a match is not found, output UNKNOWN
+                    if (matchNotFound) {
+                        System.out.println("UNKNOWN");
+                        analyze = false;
+                    }
+                } else {
+                    // If the "." is not found, decrement the charPos one step
+                    charPos--;
+                    
+                    // If we reach the end of the string and no "." has been found, then there is no extension
+                    // Declare an UNKNOWN and break the loop
+                    int currentLength = FNAME.length() - charPos;
+                    
+                    if (currentLength >= 9 || charPos < 1) {
+                        System.out.println("UNKNOWN");
+                        analyze = false;
+                    }
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
