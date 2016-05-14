@@ -1,0 +1,106 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Don't let the machines win. You are humanity's last hope...
+ **/
+class Player {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int width = in.nextInt(); // the number of cells on the X axis
+        int height = in.nextInt(); // the number of cells on the Y axis
+        in.nextLine();
+        
+        String[] line = new String[height];
+        
+        for (int i = 0; i < height; i++) {
+            line[i] = in.nextLine(); // width characters, each either 0 or .
+        }
+        
+        // Since we only need to look right and below to figure out neighbors (which duplicates
+        // above- and left-, anyway) we can work our way through each cell and determine neighbors by checking
+        // x + 1, y, and x, y + 1, for each node found
+        
+        // Other constraints:
+        // Give incorrect neighbors -- prevented by proper coding
+        // Give neighbors for an empty cell -- prevented by checking specific character using substring
+        // compute same node twice -- prevented by incrementation
+        // forget to compute neighbors -- prevented by proper coding
+        
+        // For a found node, print its coordinates. Same for its neighbors.
+        // If a neighbor is not found, print -1 -1.
+        
+        
+        // Analyze from top row to bottom
+        for (int y = 0; y < height; y++) {
+            
+            // then from leftmost cell to right
+            for (int x = 0; x < width; x++) {
+                String cell = Character.toString(line[y].charAt(x));
+                int futureX = x + 1;
+                int futureY = y + 1;
+                
+                // if a node is found, print its coordinates
+                if (cell.equals("0")) {
+                    System.out.print(x + " " + y + " ");
+                    
+                    // Check for neighboring nodes, travel right first
+                    Boolean rightRemaining = true;
+                    while (rightRemaining) {
+                        // If end of row reached, there is no neighbor
+                        // Output negative coordinates and break loop
+                        if (futureX >= width) {
+                            System.out.print("-1 -1 ");
+                            rightRemaining = false;
+                        } else {
+                        // else find the next cell
+                            cell = Character.toString(line[y].charAt(futureX));
+                        }
+                        
+                        // if node found, output position coordinates and break loop
+                        if (cell.equals("0") && rightRemaining) {
+                            System.out.print((futureX) + " " + y + " ");
+                            rightRemaining = false;
+                        }
+                        
+                        // Check the next cell, if there are still remaining cells
+                        futureX++;
+                    }
+                    
+                    // Now check for nodes below this one
+                    Boolean belowRemaining = true;
+                    while (belowRemaining) {
+                        // If end of column reached, then there is no neighbor 
+                        // Output negative coordinates and break loop
+                        if (futureY >= height) {
+                            System.out.print("-1 -1"); // Note no trailing space needed as this is the final coordinate pair
+                            belowRemaining = false;
+                            System.out.println();
+                        } else {
+                        // else check the next cell
+                            cell = Character.toString(line[futureY].charAt(x));
+                        }
+                        
+                        // If node found, output position coordinates and break loop
+                        if (cell.equals("0") && belowRemaining) {
+                            System.out.print(x + " " + (futureY));
+                            belowRemaining = false;                            
+                            System.out.println();
+                        }
+                                                
+                        // Check the next cell, if there are still remaining cells
+                        futureY++;
+                    }
+                    
+                } else if (cell.equals(".")) {
+                    // if the cell does not have a node, do nothing and move on to the next cell
+                } else {
+                    // If an unrecognized symbol, error
+                    System.err.println("ERROR!");
+                }
+            }
+        }
+    }
+}
